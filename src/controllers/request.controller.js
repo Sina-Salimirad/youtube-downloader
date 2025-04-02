@@ -2,9 +2,10 @@ import { spawn } from "child_process";
 import { io } from "../server.js";
 
 export const requestHandler = (req, res) => {
-  const url = req.body.url;
+  const { url, clientId } = req.body;
 
-  if (!url) return res.status(400).json({ error: "No URL provided" });
+  if (!url || !clientId)
+    return res.status(400).json({ error: "No URL or clientId provided" });
 
   const pythonProcess = spawn("/app/venv/bin/python3", [
     "src/scripts/main.py",
@@ -21,10 +22,12 @@ export const requestHandler = (req, res) => {
     message.forEach((message) => {
       try {
         const parsedMessage = JSON.parse(message);
-        io.emit("download_status", parsedMessage); // Send real-time download status updates to the client
+        io.to(clientId).emit("download_status", parsedMessage); // Send real-time download status updates to the client
       } catch (err) {
         console.error("Error parsing JSON:", err.message);
       }
     });
   });
+
+  res.json({ success: true, message: "Download started", clientId });
 };
