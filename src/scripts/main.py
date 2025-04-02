@@ -8,10 +8,9 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-PORT = os.getenv("PORT", 5000)
-RAILWAY_APP_URL = os.getenv("RAILWAY_APP_URL", "http://localhost")
+RAILWAY_APP_URL = os.getenv("RAILWAY_APP_URL", "http://localhost:5000")
 
-SERVER = f"{RAILWAY_APP_URL}:{PORT}/temp/"
+SERVER = f"{RAILWAY_APP_URL}/temp/"
 TEMP_DIR = "temp"
 DOWNLOAD_FORMAT = "bestvideo[height<=480]+bestaudio/best[height<=480]"
 EXPIRE = 3600  # 1 hour
