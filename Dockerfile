@@ -12,8 +12,14 @@ RUN npm install
 COPY . .
 
 # Install Python, FFmpeg, and set up a virtual environment for dependencies
-RUN apt-get update && apt-get install -y python3 python3-venv python3-pip ffmpeg python-dotenv
+RUN apt-get update && apt-get install -y python3 python3-venv python3-pip ffmpeg
 RUN python3 -m venv venv /app/venv
+
+# Copy requirements.txt file to the container
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip3 install -r requirements.txt
 
 # Install Python dependencies in virtual environment
 RUN . /app/venv/bin/activate && pip install -U yt-dlp 
