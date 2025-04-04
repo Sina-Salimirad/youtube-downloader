@@ -82,8 +82,6 @@ def single_video(video_info):
     delete_files(final_file)
 
 
-send_status("server:", SERVER)
-
 def process_downloaded_info(info):
     # Check if the provided URL is a playlist
     if "entries" in info:
